@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>November Race</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--red:#d80f19;--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--fg:#fff;--mute:#9b9b9b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--fg:#fff;--mute:#9b9b9b}}
+:root[data-theme="dark"]{--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--fg:#fff;--mute:#9b9b9b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;line-height:1.4}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px 40px}
+.disp{font-family:Anton,Impact,"Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.02em;font-weight:400}
+header{padding:28px 0 18px;border-bottom:4px solid var(--red);position:relative}
+header:after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:6px;background:repeating-linear-gradient(115deg,var(--red) 0 14px,transparent 14px 28px)}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-size:clamp(40px,9vw,76px);line-height:.95}
+h1 span{color:var(--red)}
+.sub{color:var(--mute);font-size:13px;margin-top:6px}
+.day{text-align:right}
+.day b{display:block;font-size:34px;color:var(--red)}
+.day small{color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.pick{margin:34px 0 16px}
+select{width:100%;padding:14px;font:600 16px Inter,sans-serif;background:var(--card);color:var(--fg);border:2px solid var(--line);border-radius:10px}
+select:focus{outline:none;border-color:var(--red)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.hero{border-top:4px solid var(--red)}
+.who{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.who h2{margin:0;font-size:28px}
+.chip{display:inline-block;padding:4px 10px;border:1px solid var(--red);color:var(--red);border-radius:99px;font-weight:800;font-size:12px;letter-spacing:.08em}
+.big{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin:14px 0 6px}
+.num{font-size:clamp(64px,16vw,120px);line-height:.9}
+.unit{color:var(--mute);font-size:14px;margin-bottom:8px}
+.badge{margin-left:auto;text-align:center}
+.badge i{display:flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:50%;font:normal 46px Anton,Impact,sans-serif;border:4px solid var(--fg);color:var(--fg)}
+.badge i.B{background:var(--fg);color:var(--bg)}
+.badge i.A{background:var(--red);border-color:var(--red);color:#fff}
+.badge i.n{border-style:dashed;border-color:var(--line);color:var(--mute)}
+.badge small{display:block;margin-top:6px;color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+.track{position:relative;height:16px;background:#222;border-radius:8px;margin:26px 0 30px}
+.fill{height:100%;background:var(--red);border-radius:8px;transition:width .6s}
+.mk{position:absolute;top:-6px;width:2px;height:28px;background:var(--fg)}
+.mk span{position:absolute;top:30px;left:-10px;width:22px;text-align:center;font:12px Anton,sans-serif;color:var(--mute)}
+.next{color:var(--mute);font-size:13px}
+.next b{color:var(--fg)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:18px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:14px}
+.stat small{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+.stat b{display:block;font:normal 38px Anton,Impact,sans-serif;margin-top:4px}
+.stat b em{font-style:normal;font-size:16px;color:var(--mute)}
+.empty{text-align:center;padding:36px 16px;color:var(--mute)}
+.empty b{display:block;color:var(--fg);font-size:26px;margin-bottom:6px}
+.lb{margin-top:28px}
+.lbh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.lbh h3{margin:0;font-size:26px}
+.tabs{display:flex;gap:6px;overflow-x:auto;max-width:100%;padding-bottom:4px}
+.tabs button{flex:none;background:none;color:var(--mute);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font:800 12px Inter,sans-serif;cursor:pointer}
+.tabs button.on{background:var(--red);border-color:var(--red);color:#fff}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:420px}
+th{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.1em;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line);font-size:14px}
+tr.r{cursor:pointer}
+tr.r:hover td{background:#1c1c1c}
+tr.me td{background:#2a0a0c;border-bottom-color:var(--red)}
+td.rk{font:normal 20px Anton,sans-serif;width:44px}
+tr.p1 td.rk{color:var(--red)}
+td.o{text-align:right;font-weight:800}
+.tb{font:normal 15px Anton,sans-serif;display:inline-block;min-width:24px;text-align:center;border:1px solid var(--fg);border-radius:4px}
+.tb.A{background:var(--red);border-color:var(--red)}
+.tb.B{background:var(--fg);color:var(--bg)}
+.gap td{text-align:center;color:var(--mute);padding:4px}
+footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.demo{color:var(--red);font-weight:800}
+.ph{position:relative;margin:22px 0;border:2px dashed var(--red);border-radius:14px;background:repeating-linear-gradient(135deg,#140506 0 12px,#0e0e0e 12px 24px);color:var(--mute);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;overflow:hidden}
+.ph span{padding:16px;max-width:440px}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.banner{aspect-ratio:12/5;clip-path:polygon(0 0,100% 0,100% 88%,96% 100%,0 100%)}
+.finish{aspect-ratio:16/5;margin-top:34px}
+@media (max-width:560px){.banner{aspect-ratio:4/3}.finish{aspect-ratio:16/9}}
+.ticker{overflow:hidden;background:var(--red);color:#fff;transform:skewY(-1deg);margin:0 -16px;white-space:nowrap}
+.ticker div{display:inline-block;padding:8px 0;font:normal 16px Anton,Impact,sans-serif;letter-spacing:.12em;animation:tk 26s linear infinite}
+@keyframes tk{to{transform:translateX(-50%)}}
+.hero{position:relative;overflow:hidden}
+.wm{position:absolute;right:-6px;top:-34px;font-size:300px;line-height:1;color:transparent;-webkit-text-stroke:2px #262626;pointer-events:none}
+.hero>*:not(.wm){position:relative}
+.kpis{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px;margin:16px 0 6px}
+.kpi{flex:1 1 130px;border-left:4px solid var(--red);padding:2px 0 2px 14px}
+.kpi .n{font-size:clamp(52px,14vw,96px);line-height:.95}
+.kpi .l{color:var(--mute);font-size:13px;text-transform:uppercase;letter-spacing:.1em;font-weight:800}
+.kpis .badge{flex:0 0 auto;margin-left:auto}
+.kv{display:block;white-space:nowrap}
+.kv small{color:var(--mute);font-size:11px}
+.fs{display:none;color:var(--mute);font-size:11px}
+@media (max-width:560px){.hf{display:none}.fs{display:block}table{min-width:0}td,th{padding:10px 6px}.wm{font-size:200px}.badge i{width:68px;height:68px;font-size:38px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="top">
+    <div>
+      <h1 class="disp">November <span>Race</span></h1>
+      <div class="sub">1 Nov – 2 Dec &middot; run your lane</div>
+    </div>
+    <div class="day"><b class="disp" id="day">–</b><small id="daysub"></small></div>
+  </div>
+</header>
+
+<!-- IMAGE 1: BANNER. Wide landscape (about 1200x500). Usain Bolt mid-sprint or in his lightning-bolt pose, red/black duotone. To use: delete the <span> and put <img src="your-image.jpg" alt=""> inside this div. -->
+<div class="ph banner" id="img-banner"><span><b>IMAGE 1 &middot; BANNER</b><br>Wide landscape ~1200&times;500. Bolt mid-sprint or in the lightning-bolt pose, red/black treatment.<br>Replace this span with &lt;img src=&quot;...&quot;&gt;</span></div>
+<div class="ticker"><div>NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; </div></div>
+
+<div class="pick"><select id="who" aria-label="Find your name"></select></div>
+<div id="me"></div>
+
+<section class="lb">
+  <div class="lbh"><h3 class="disp">Leaderboard</h3><div class="tabs" id="tabs"></div></div>
+  <div class="card scroll" style="padding:6px"><table><thead><tr><th>#</th><th>Name</th><th class="hf">Fn</th><th>Tier</th><th style="text-align:right">Results</th></tr></thead><tbody id="rows"></tbody></table></div>
+</section>
+
+<!-- IMAGE 2: FINISH LINE STRIP. Wide strip (about 1200x375): finish-line tape, stadium track, or Bolt crossing the line. Same replace-the-span method. -->
+<div class="ph finish" id="img-finish"><span><b>IMAGE 2 &middot; FINISH STRIP</b><br>Wide strip ~1200&times;375. Finish-line tape, track lanes, or Bolt crossing the line.</span></div>
+<footer><span id="upd"></span><span class="demo" id="demo"></span></footer>
+</div>
+
+<script>
+// ===== CONFIG =====
+const DATA_URL = "https://script.google.com/macros/s/AKfycbzkYYTwHwt5uik2aYJVVE_mMkwuDThruBuPshPmnPvwDrK1ZlAiJM34vYbsft_wlMKmMg/exec";            // paste Apps Script web app URL here; empty = demo data
+const REFRESH_MS = 60000;
+const NORMALIZE_OVERALL = true; // overall rank by output ÷ Tier A target (fair across functions); false = raw total
+const START = new Date("2026-11-01T00:00:00+02:00"), END = new Date("2026-12-02T23:59:59+02:00");
+// kpis = Data-tab columns summed into Total Output; t = [Tier C, Tier B, Tier A] milestones
+const FN = {
+  OGV:  {kpis:["APD"], t:[5,15,30]},
+  OGT:  {kpis:["APD"], t:[5,15,30]},
+  IGTA: {kpis:["APD","SLOTS"], t:[10,25,50]},
+  IGTE: {kpis:["APD","SLOTS"], t:[10,25,50]},
+  IGV:  {kpis:["APD","SLOTS"], t:[10,25,50]},
+  B2C:  {kpis:["EVENT","CAMPUS"], t:[6,15,30]},
+  BD:   {kpis:["MONEY"], t:[10000,30000,60000], unit:"EGP"}
+};
+const LABEL = {APD:"APDs",SLOTS:"Slots",EVENT:"Events",CAMPUS:"Campuses",MONEY:"EGP"};
+// ===================
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = n => Number(n).toLocaleString("en-US");
+const num = v => Number(String(v).replace(/,/g,"")) || 0;
+let S = {rows:[], sel:"", tab:"ALL"};
+try { S.sel = localStorage.getItem("nr_sel") || ""; } catch(e) {}
+
+function mock(){
+  let s = 7; const r = () => (s = s*16807 % 2147483647)/2147483647;
+  const plan = {OGV:8,OGT:7,IGTA:7,IGTE:7,IGV:7,B2C:8,BD:6}, out = []; let n = 1;
+  for (const f in plan) for (let i=0;i<plan[f];i++){
+    const o = {NAME:"Member "+String(n++).padStart(2,"0"), FUNCTION:f, APD:0, SLOTS:0, EVENT:0, CAMPUS:0, MONEY:0}, k = FN[f].kpis;
+    k.forEach(x => o[x] = x==="MONEY" ? Math.round(r()*55000/500)*500 : Math.round(r()*FN[f].t[2]*1.1/k.length));
+    out.push(o);
+  }
+  return out;
+}
+
+function rank(list, key, val){
+  const a = [...list].sort((x,y) => y[val]-x[val]);
+  a.forEach((x,i) => x[key] = i && x[val]===a[i-1][val] ? a[i-1][key] : i+1);
+  return a;
+}
+
+function compute(rows){
+  const L = rows.map(o => {
+    const f = String(o.FUNCTION||"").trim().toUpperCase(), c = FN[f];
+    if (!c || !o.NAME) return null;
+    const total = c.kpis.reduce((a,k) => a + num(o[k]), 0), [tc,tb,ta] = c.t;
+    return {name:String(o.NAME).trim(), f, c, total, v:Object.fromEntries(c.kpis.map(k => [k, num(o[k])])), score:total/ta, tier: total>=ta?"A":total>=tb?"B":total>=tc?"C":""};
+  }).filter(Boolean);
+  const by = {};
+  L.forEach(x => (by[x.f] = by[x.f] || []).push(x));
+  for (const f in by){ rank(by[f], "fnRank", "total"); by[f].forEach(x => x.fnCount = by[f].length); }
+  const all = rank(L, "rank", NORMALIZE_OVERALL ? "score" : "total");
+  all.forEach(x => x.count = all.length);
+  return all;
+}
+
+function renderMe(){
+  const x = S.rows.find(r => r.name === S.sel), el = $("me");
+  if (!x){ el.innerHTML = '<div class="card empty"><b class="disp">Pick your name</b>Step onto the track to see your tier and rank.</div>'; return; }
+  const [tc,tb,ta] = x.c.t, basis = x.c.kpis.map(k => LABEL[k]).join(" + ");
+  const nxt = x.tier==="A" ? null : x.tier==="B" ? ["A",ta] : x.tier==="C" ? ["B",tb] : ["C",tc];
+  const pct = Math.min(100, x.total/ta*100);
+  el.innerHTML = `<div class="card hero"><div class="wm disp">${x.tier||""}</div>
+    <div class="who"><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div>
+    <div class="kpis">${x.c.kpis.map(k => `<div class="kpi"><div class="n disp">${fmt(x.v[k])}</div><div class="l">${LABEL[k]}</div></div>`).join("")}
+      <div class="badge"><i class="${x.tier||"n"} disp">${x.tier||"–"}</i><small>Current tier</small></div>
+    </div>
+    <div class="track"><div class="fill" style="width:${pct}%"></div>
+      <div class="mk" style="left:${tc/ta*100}%"><span>C</span></div>
+      <div class="mk" style="left:${tb/ta*100}%"><span>B</span></div>
+      <div class="mk" style="left:calc(100% - 2px)"><span>A</span></div></div>
+    <div class="next">${nxt ? `<b>${fmt(nxt[1]-x.total)} more ${basis}</b> to reach Tier ${nxt[0]}` : "<b>Top tier reached.</b> Keep running."}<br>Tier and rank are based on ${basis}.</div>
+    <div class="stats">
+      <div class="stat"><small>Function</small><b>${esc(x.f)}</b></div>
+      <div class="stat"><small>Rank in ${esc(x.f)}</small><b>${x.fnRank}<em> / ${x.fnCount}</em></b></div>
+      <div class="stat"><small>Rank overall</small><b>${x.rank}<em> / ${x.count}</em></b></div>
+    </div></div>`;
+}
+
+function renderLB(){
+  const fns = ["ALL", ...Object.keys(FN)];
+  $("tabs").innerHTML = fns.map(f => `<button class="${f===S.tab?"on":""}" data-f="${f}">${f==="ALL"?"Overall":f}</button>`).join("");
+  const key = S.tab==="ALL" ? "rank" : "fnRank";
+  let list = S.rows.filter(r => S.tab==="ALL" || r.f===S.tab).sort((a,b) => a[key]-b[key] || a.name.localeCompare(b.name));
+  const top = list.slice(0,10), me = list.find(r => r.name===S.sel);
+  const row = r => `<tr class="r ${r.name===S.sel?"me":""} ${r[key]===1?"p1":""}" data-n="${esc(r.name)}"><td class="rk">${r[key]}</td><td>${esc(r.name)}<small class="fs">${esc(r.f)}</small></td><td class="hf">${esc(r.f)}</td><td>${r.tier?`<span class="tb ${r.tier}">${r.tier}</span>`:"–"}</td><td class="o">${r.c.kpis.map(k => `<span class="kv"><b>${fmt(r.v[k])}</b> <small>${LABEL[k]}</small></span>`).join("")}</td></tr>`;
+  let h = top.map(row).join("");
+  if (me && !top.includes(me)) h += '<tr class="gap"><td colspan="5">&bull; &bull; &bull;</td></tr>' + row(me);
+  $("rows").innerHTML = h || '<tr><td colspan="5" class="empty">No data yet</td></tr>';
+}
+
+function renderPick(){
+  const names = S.rows.map(r => r.name).sort((a,b) => a.localeCompare(b));
+  $("who").innerHTML = '<option value="">Find your name…</option>' + names.map(n => `<option ${n===S.sel?"selected":""}>${esc(n)}</option>`).join("");
+}
+
+function renderDay(){
+  const now = new Date(), d = Math.ceil((END-START)/864e5);
+  if (now < START){ $("day").textContent = Math.ceil((START-now)/864e5)+" days"; $("daysub").textContent = "until the gun"; }
+  else if (now > END){ $("day").textContent = "Finished"; $("daysub").textContent = "race over"; }
+  else { $("day").textContent = "Day "+Math.ceil((now-START)/864e5); $("daysub").textContent = "of "+d; }
+}
+
+function pick(n){
+  S.sel = n; try { localStorage.setItem("nr_sel", n); } catch(e) {}
+  $("who").value = n; renderMe(); renderLB();
+}
+
+async function load(){
+  try {
+    let rows;
+    if (!DATA_URL){ rows = mock(); $("demo").textContent = "DEMO DATA"; }
+    else {
+      const j = await (await fetch(DATA_URL)).json(), keys = j[0].map(k => String(k).trim().toUpperCase());
+      rows = j.slice(1).map(r => { const o = {}; keys.forEach((k,i) => o[k] = r[i]); return o; });
+    }
+    S.rows = compute(rows);
+    renderPick(); renderMe(); renderLB(); renderDay();
+    $("upd").textContent = "Updated " + new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+  } catch(e) { console.error("Refresh failed", e); $("upd").textContent += " · refresh failed, showing last data"; }
+}
+
+$("who").onchange = e => pick(e.target.value);
+$("tabs").onclick = e => { const f = e.target.dataset.f; if (f){ S.tab = f; renderLB(); } };
+$("rows").onclick = e => { const tr = e.target.closest("tr.r"); if (tr){ pick(tr.dataset.n); window.scrollTo({top:0,behavior:"smooth"}); } };
+document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+load(); setInterval(load, REFRESH_MS);
+</script>
+</body>
+</html>
