@@ -226,10 +226,26 @@ function renderPick(){
 }
 
 function renderDay(){
-  const now = new Date(), d = Math.ceil((END-START)/864e5);
-  if (now < START){ $("day").textContent = Math.ceil((START-now)/864e5)+" days"; $("daysub").textContent = "until the gun"; }
-  else if (now > END){ $("day").textContent = "Finished"; $("daysub").textContent = "race over"; }
-  else { $("day").textContent = "Day "+Math.ceil((now-START)/864e5); $("daysub").textContent = "of "+d; }
+  const cairo = d => new Date(d.toLocaleString("en-US", {timeZone:"Africa/Cairo"}));
+  const day0  = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const today = day0(cairo(new Date()));
+  const start = new Date(2026, 10, 1), end = new Date(2026, 11, 2);  // month is 0-based
+  const n = (a, b) => Math.round((b - a) / 864e5);
+  const total = n(start, end) + 1;                                    // 32 days
+  let big, sub;
+  if (today < start){
+    const d = n(today, start);
+    big = d === 1 ? "Tomorrow" : d + " days";
+    sub = d === 1 ? "the race starts" : "until the gun";
+  } else if (today > end){
+    big = "Finished"; sub = "race over";
+  } else {
+    const d = n(start, today) + 1;
+    big = d === total ? "Final day" : "Day " + d;
+    sub = "of " + total;
+  }
+  $("day").textContent = big;
+  $("daysub").textContent = sub;
 }
 
 function pick(n){
