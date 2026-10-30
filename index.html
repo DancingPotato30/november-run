@@ -75,7 +75,7 @@ td.o{text-align:right;font-weight:800}
 .gap td{text-align:center;color:var(--mute);padding:4px}
 footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .demo{color:var(--red);font-weight:800}
-.ph{position:relative;margin:22px 0;border:2px dashed var(--red);border-radius:14px;background:repeating-linear-gradient(135deg,#140506 0 12px,#0e0e0e 12px 24px);color:var(--mute);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;overflow:hidden}
+.ph{position:relative;margin:22px 0;border:none;border-radius:14px;background:repeating-linear-gradient(135deg,#140506 0 12px,#0e0e0e 12px 24px);color:var(--mute);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;overflow:hidden}
 .ph span{padding:16px;max-width:440px}
 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .banner{aspect-ratio:12/5;clip-path:polygon(0 0,100% 0,100% 88%,96% 100%,0 100%)}
@@ -111,7 +111,7 @@ footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-con
 </header>
 
 <!-- IMAGE 1: BANNER. Wide landscape (about 1200x500). Usain Bolt mid-sprint or in his lightning-bolt pose, red/black duotone. To use: delete the <span> and put <img src="your-image.jpg" alt=""> inside this div. -->
-<div class="ph banner" id="img-banner"><img src="logo.jpg" alt="AIESEC in Ain Shams University"></div>
+<div class="ph banner" id="img-banner"><img src="logo.png" alt="AIESEC in Ain Shams University" style="object-position: center;"></div>
 <div class="ticker"><div>NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; </div></div>
 
 <div class="pick"><select id="who" aria-label="Find your name"></select></div>
@@ -123,7 +123,7 @@ footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-con
 </section>
 
 <!-- IMAGE 2: FINISH LINE STRIP. Wide strip (about 1200x375): finish-line tape, stadium track, or Bolt crossing the line. Same replace-the-span method. -->
-<div class="ph finish" id="img-finish"><img src="usain.jpg" alt=""></div>
+<div class="ph finish" id="img-finish"><img src="usain.jpg" alt="" style="object-position: center 8%"></div>
 <footer><span id="upd"></span><span class="demo" id="demo"></span></footer>
 </div>
 
