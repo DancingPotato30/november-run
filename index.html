@@ -109,6 +109,12 @@ details p{color:var(--mute);font-size:13px}
 .cel b{display:block;font-size:min(46vw,260px);line-height:1}
 .cel small,.cel span{font:normal 28px Anton,sans-serif;letter-spacing:.14em;text-transform:uppercase}
 @keyframes pop{from{transform:scale(1.3);opacity:0}}
+.last .sw b{animation:pls 1s infinite}
+.last .ticker{background:#fff;color:var(--red)}
+@keyframes pls{50%{opacity:.35}}
+.done #mvs{display:none}
+.chase{margin-top:10px;font-size:14px}
+.chase b{color:var(--red)}
 footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 @media (max-width:560px){.hf{display:none}.fs{display:block}td,th{padding:10px 6px}.wm{font-size:200px}.badge i{width:68px;height:68px;font-size:38px}.pp{margin-left:0;text-align:left}}
 </style>
@@ -123,9 +129,10 @@ footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-con
 </header>
 
 <div class="ph banner" id="img-banner"><img src="logo.png" alt="AIESEC in Ain Shams University"></div>
-<div class="ticker"><div>NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; </div></div>
+<div class="ticker"><div id="tk">NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; </div></div>
 
 <div id="pod"></div>
+<div id="fin"></div>
 <div class="pick"><select id="who" aria-label="Find your name"></select></div>
 <div id="me"></div>
 
@@ -210,7 +217,7 @@ function compute(rows){
 
 function renderPod(){
   const lead = S.rows.filter(r => r.rank===1 && r.total>0).slice(0,3);
-  $("pod").innerHTML = lead.length ? lead.map(x => `<div class="card pod"><div class="av">${esc(ini(x.name))}<img src="photos/${slug(x.name)}.jpg" alt="" onerror="this.remove()"></div><div><small class="k">&#9889; Leading the race</small><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div><div class="pp disp">${fmt(x.total)}<small>POINTS</small></div></div>`).join("")
+  $("pod").innerHTML = lead.length ? lead.map(x => `<div class="card pod"><div class="av">${esc(ini(x.name))}<img src="photos/${slug(x.name)}.jpg" alt="" onerror="this.remove()"></div><div><small class="k">&#9889; ${Date.now()>END?"Champion":"Leading the race"}</small><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div><div class="pp disp">${fmt(x.total)}<small>POINTS</small></div></div>`).join("")
     : '<div class="card empty" style="margin-top:28px"><b class="disp">Who takes the lead?</b>The podium opens with the first points.</div>';
 }
 
@@ -226,6 +233,14 @@ function celebrate(x){
   } catch(e) {}
 }
 
+function chase(x){
+  const up = S.rows.filter(r => r.total > x.total).sort((a,b) => a.total-b.total)[0];
+  if (!up) return x.total>0 ? '<div class="chase"><b>You are #1.</b> Defend it.</div>' : "";
+  const gap = up.total - x.total;
+  const u = Object.entries(x.c.pts).map(([k,p]) => { const n = Math.floor(+(gap/p).toFixed(6))+1; return `<b>${fmt(n)} ${LABEL[k]}${n>1&&k!=="MONEY"?"s":""}</b>`; }).join(" or ");
+  return `<div class="chase">You are ${u} away from passing ${esc(up.name)} (#${up.rank}).</div>`;
+}
+
 function renderMe(){
   const x = S.rows.find(r => r.name === S.sel), el = $("me");
   if (!x){ el.innerHTML = '<div class="card empty"><b class="disp">Pick your name</b>Step onto the track to see your tier and rank.</div>'; return; }
@@ -239,6 +254,7 @@ function renderMe(){
       <div class="mk" style="left:${tb/ta*100}%"><span>B</span></div>
       <div class="mk" style="left:calc(100% - 2px)"><span>A</span></div></div>
     <div class="next">${nxt ? `<b>${fmt(nxt[1]-x.total)} more points</b> to reach Tier ${nxt[0]}` : "<b>Top tier reached.</b> Keep running."}</div>
+    ${chase(x)}
     <div class="stats">
       <div class="stat"><small class="k">Rank in ${esc(x.f)}</small><b>${x.fnRank}<em> / ${x.fnCount}</em></b></div>
       <div class="stat"><small class="k">Rank overall</small><b>${x.rank}<em> / ${x.count}</em></b></div>
@@ -263,6 +279,14 @@ function renderMovers(){
   $("mv").innerHTML = m.map((m,i) => `<div class="mv"><span>${i+1}. ${esc(m.x.name)} <small class="k">${esc(m.x.f)}</small></span><b>&#9650; +${fmt(m.d)} pts</b></div>`).join("");
 }
 
+function renderFin(){
+  if (Date.now() <= END){ $("fin").innerHTML = ""; return; }
+  const by = {}; S.rows.forEach(x => (by[x.f] = by[x.f] || []).push(x));
+  const best = Object.keys(by).map(f => ({f, p: by[f].reduce((a,x) => a+x.total, 0)/by[f].length/FN[f].t[2]})).sort((a,b) => b.p-a.p)[0];
+  const n = t => S.rows.filter(r => r.tier===t).length, st = (l,v) => `<div class="stat"><small class="k">${l}</small><b>${v}</b></div>`;
+  $("fin").innerHTML = `<div class="card" style="margin-top:12px"><h3 class="disp">Final results</h3><div class="stats">${st("Tier A",n("A"))}${st("Tier B",n("B"))}${st("Tier C",n("C"))}${st("Winning function",best?best.f:"–")}</div></div>`;
+}
+
 function renderLB(){
   $("tabs").innerHTML = ["ALL", ...Object.keys(FN)].map(f => `<button class="${f===S.tab?"on":""}" data-f="${f}">${f==="ALL"?"Overall":f}</button>`).join("");
   const key = S.tab==="ALL" ? "rank" : "fnRank";
@@ -285,6 +309,10 @@ function tick(){
   const n = Date.now(), pre = n < START, done = n > END, s = Math.floor((pre ? START-n : Math.min(n,END)-START)/1e3), p = v => String(v).padStart(2,"0");
   $("sw").textContent = `${p(Math.floor(s/86400))}:${p(Math.floor(s%86400/3600))}:${p(Math.floor(s%3600/60))}:${p(s%60)}`;
   $("swl").textContent = (pre ? "until the gun" : done ? "final time" : "race clock") + " · d : h : m : s";
+  const last = !pre && !done && END-n < 172800000;
+  document.body.classList.toggle("last", last); document.body.classList.toggle("done", done);
+  const mode = last ? 1 : done ? 2 : 0;
+  if (mode && S.mode !== mode){ S.mode = mode; $("tk").innerHTML = (mode===1 ? "LAST 48 HOURS &#9889; " : "FINAL RESULTS &#9889; ").repeat(14); }
 }
 
 function pick(n){
@@ -304,7 +332,7 @@ async function load(){
       if (!Array.isArray(j) && j.prev) prev = toRows(j.prev);
     }
     S.rows = compute(rows); S.prev = prev;
-    renderPod(); renderPick(); renderMe(); renderLanes(); renderMovers(); renderLB();
+    renderPod(); renderPick(); renderMe(); renderLanes(); renderMovers(); renderFin(); renderLB();
     $("upd").textContent = "Updated " + new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
   } catch(e) { console.error("Refresh failed", e); $("upd").textContent += " · refresh failed, showing last data"; }
 }
