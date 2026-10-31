@@ -149,6 +149,8 @@ h1{animation:gl 10s infinite}
 @keyframes gl{0%,95%,100%{transform:none;text-shadow:none}96%{transform:translate(-3px,1px) skewX(-6deg);text-shadow:3px 0 var(--red),-3px 0 #fff}98%{transform:translate(3px,-1px);text-shadow:-3px 0 var(--red),3px 0 #fff}}
 .sd{display:inline-block;animation:flip .35s}
 @keyframes flip{from{transform:translateY(-55%);opacity:0}}
+.credit{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);text-align:center;color:var(--mute);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.credit span{color:var(--red)}.credit b{color:var(--fg)}
 footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 @media (max-width:560px){.hf{display:none}.fs{display:block}td,th{padding:10px 6px}.wm{font-size:200px}.badge i{width:70px;height:78px;font-size:38px}.pp{margin-left:0;text-align:left}}
 </style>
@@ -185,13 +187,12 @@ footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-con
 </details>
 
 <footer><span id="upd"></span><span id="demo" style="color:var(--red);font-weight:800"></span></footer>
+<div class="credit"><span>&#9889;</span> Made by <b>Ziad Sayeh</b> &middot; LCVP TM &amp; IM &middot; AIESEC in Ain Shams University</div>
 </div>
 <div id="intro"><b class="disp" id="it"></b></div>
 <script>try{if(localStorage.getItem("nr_intro")===new Date().toDateString())document.getElementById("intro").remove()}catch(e){}</script>
 <div id="mini"><span id="mn"></span><b id="ms"></b></div>
 <div class="cel" id="cel"></div>
-
-  <div>Made By Ziad Sayeh LCVP TM&IM</div>
 
 <script>
 // ===== CONFIG =====
