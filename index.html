@@ -10,7 +10,7 @@
 :root{--red:#d80f19;--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--fg:#fff;--mute:#9b9b9b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;line-height:1.4}
+body{margin:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.025) 0 2px,transparent 2px 42px),var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;line-height:1.4}
 .wrap{max-width:960px;margin:0 auto;padding:0 16px 40px}
 .disp{font-family:Anton,Impact,"Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.02em;font-weight:400}
 header{padding:28px 0 18px;border-bottom:4px solid var(--red);position:relative}
@@ -34,7 +34,7 @@ h3.disp{margin:0 0 10px;font-size:26px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
 .chip{display:inline-block;padding:4px 10px;border:1px solid var(--red);color:var(--red);border-radius:99px;font-weight:800;font-size:12px;letter-spacing:.08em}
 small.k{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
-.pod{display:flex;align-items:center;gap:18px;border:2px solid var(--red);background:linear-gradient(100deg,#2a0a0c,var(--card) 60%);margin-top:28px;flex-wrap:wrap}
+.pod{display:flex;align-items:center;gap:18px;border:2px solid var(--red);background:radial-gradient(circle at 80px 50%,rgba(216,15,25,.5),transparent 230px),linear-gradient(100deg,#2a0a0c,var(--card) 60%);margin-top:28px;flex-wrap:wrap}
 .pod+.pod{margin-top:12px}
 .av{position:relative;width:104px;height:104px;border-radius:50%;border:4px solid var(--red);background:#222;flex:none;overflow:hidden;display:flex;align-items:center;justify-content:center;font:normal 40px Anton,sans-serif}
 .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -44,7 +44,7 @@ small.k{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing
 .pick{margin:34px 0 16px}
 select{width:100%;padding:14px;font:600 16px Inter,sans-serif;background:var(--card);color:var(--fg);border:2px solid var(--line);border-radius:10px}
 select:focus{outline:none;border-color:var(--red)}
-.hero{position:relative;overflow:hidden;border-top:4px solid var(--red)}
+.hero{position:relative;overflow:hidden;border-top:4px solid var(--red);background:linear-gradient(90deg,var(--red) 0 5px,transparent 5px),repeating-linear-gradient(180deg,transparent 0 52px,rgba(255,255,255,.05) 52px 54px),var(--card)}
 .hero>*:not(.wm){position:relative}
 .wm{position:absolute;right:-6px;top:-34px;font-size:300px;line-height:1;color:transparent;-webkit-text-stroke:2px #262626;pointer-events:none}
 .who{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
@@ -53,10 +53,27 @@ select:focus{outline:none;border-color:var(--red)}
 .pts{font-size:clamp(72px,19vw,130px);line-height:.9}
 .pts small{font:600 14px Inter,sans-serif;color:var(--mute);margin-left:6px}
 .badge{margin-left:auto;text-align:center}
-.badge i{display:flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:50%;font:normal 46px Anton,Impact,sans-serif;border:4px solid var(--fg);color:var(--fg)}
-.badge i.B{background:var(--fg);color:var(--bg)}
-.badge i.A{background:var(--red);border-color:var(--red);color:#fff}
-.badge i.n{border-style:dashed;border-color:var(--line);color:var(--mute)}
+.badge i{display:flex;align-items:center;justify-content:center;width:88px;height:98px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);font:normal 46px Anton,Impact,sans-serif;color:#fff;background:linear-gradient(145deg,#4a4a4a,#1d1d1d)}
+.badge i.C{background:linear-gradient(145deg,#8f8f8f,#2a2a2a)}
+.badge i.B{background:linear-gradient(145deg,#fff,#a8a8a8);color:#111}
+.badge i.A{background:linear-gradient(145deg,#ff3b44,#9d0710)}
+.badge i.n{background:#1c1c1c;color:var(--mute)}
+.badge.A{filter:drop-shadow(0 0 10px var(--red));animation:glow 2s infinite}
+@keyframes glow{50%{filter:drop-shadow(0 0 22px var(--red))}}
+.wrap>:not(.ticker){animation:up .6s backwards}
+.wrap>:nth-child(n+3){animation-delay:.1s}.wrap>:nth-child(n+5){animation-delay:.2s}.wrap>:nth-child(n+7){animation-delay:.3s}.wrap>:nth-child(n+9){animation-delay:.4s}
+@keyframes up{from{opacity:0;transform:translateY(24px)}}
+.sk{background:linear-gradient(90deg,#151515 25%,#202020 50%,#151515 75%);background-size:200% 100%;animation:sh 1.2s infinite;height:220px}
+@keyframes sh{to{background-position:-200% 0}}
+.avw{position:relative;flex:none}
+.crown{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--red);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:1}
+.ar{display:block;font:700 10px Inter,sans-serif;color:#fff}.ar.d{color:var(--red)}
+#mini{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 16px 8px;background:rgba(10,10,10,.93);backdrop-filter:blur(8px);border-bottom:2px solid var(--red);transform:translateY(-110%);transition:transform .3s;font:normal 18px Anton,Impact,sans-serif;text-transform:uppercase}
+#mini.show{transform:none}
+#mini i{font-style:normal;color:var(--red);margin:0 4px}
+#mini b{font-weight:400;color:var(--red);font-variant-numeric:tabular-nums}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:8;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
 .badge small{display:block;margin-top:6px;color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
 .track{position:relative;height:16px;background:#222;border-radius:8px;margin:26px 0 30px}
 .fill{height:100%;background:var(--red);border-radius:8px;transition:width .6s}
@@ -116,7 +133,7 @@ details p{color:var(--mute);font-size:13px}
 .chase{margin-top:10px;font-size:14px}
 .chase b{color:var(--red)}
 footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-@media (max-width:560px){.hf{display:none}.fs{display:block}td,th{padding:10px 6px}.wm{font-size:200px}.badge i{width:68px;height:68px;font-size:38px}.pp{margin-left:0;text-align:left}}
+@media (max-width:560px){.hf{display:none}.fs{display:block}td,th{padding:10px 6px}.wm{font-size:200px}.badge i{width:70px;height:78px;font-size:38px}.pp{margin-left:0;text-align:left}}
 </style>
 </head>
 <body>
@@ -131,12 +148,12 @@ footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-con
 <div class="ph banner" id="img-banner"><img src="logo.png" alt="AIESEC in Ain Shams University"></div>
 <div class="ticker"><div id="tk">NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; </div></div>
 
-<div id="pod"></div>
+<div id="pod"><div class="card sk" style="height:140px;margin-top:28px"></div></div>
 <div id="fin"></div>
 <div class="pick"><select id="who" aria-label="Find your name"></select></div>
-<div id="me"></div>
+<div id="me"><div class="card sk"></div></div>
 
-<section class="sec"><h3 class="disp">Function lanes</h3><div class="card" id="lanes"></div></section>
+<section class="sec"><h3 class="disp">Function lanes</h3><div class="card sk" id="lanes" style="height:160px"></div></section>
 <section class="sec" id="mvs" hidden><h3 class="disp">Movers of the day</h3><div class="card" id="mv"></div></section>
 
 <section class="sec">
@@ -152,6 +169,7 @@ footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-con
 
 <footer><span id="upd"></span><span id="demo" style="color:var(--red);font-weight:800"></span></footer>
 </div>
+<div id="mini"><span id="mn"></span><b id="ms"></b></div>
 <div class="cel" id="cel"></div>
 
 <script>
@@ -217,7 +235,7 @@ function compute(rows){
 
 function renderPod(){
   const lead = S.rows.filter(r => r.rank===1 && r.total>0).slice(0,3);
-  $("pod").innerHTML = lead.length ? lead.map(x => `<div class="card pod"><div class="av">${esc(ini(x.name))}<img src="photos/${slug(x.name)}.jpg" alt="" onerror="this.remove()"></div><div><small class="k">&#9889; ${Date.now()>END?"Champion":"Leading the race"}</small><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div><div class="pp disp">${fmt(x.total)}<small>POINTS</small></div></div>`).join("")
+  $("pod").innerHTML = lead.length ? lead.map(x => `<div class="card pod"><div class="avw"><div class="av">${esc(ini(x.name))}<img src="photos/${slug(x.name)}.jpg" alt="" onerror="this.remove()"></div><span class="crown">&#9889;</span></div><div><small class="k">&#9889; ${Date.now()>END?"Champion":"Leading the race"}</small><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div><div class="pp disp" data-k="pod${esc(x.name)}" data-to="${x.total}">${fmt(x.total)}<small>POINTS</small></div></div>`).join("")
     : '<div class="card empty" style="margin-top:28px"><b class="disp">Who takes the lead?</b>The podium opens with the first points.</div>';
 }
 
@@ -247,8 +265,8 @@ function renderMe(){
   const [tc,tb,ta] = x.c.t, nxt = x.tier==="A" ? null : x.tier==="B" ? ["A",ta] : x.tier==="C" ? ["B",tb] : ["C",tc];
   el.innerHTML = `<div class="card hero"><div class="wm disp">${x.tier||""}</div>
     <div class="who"><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div>
-    <div class="big"><div class="pts disp">${fmt(x.total)}<small>POINTS</small></div>
-      <div class="badge"><i class="${x.tier||"n"} disp">${x.tier||"–"}</i><small>Current tier</small></div></div>
+    <div class="big"><div class="pts disp" data-k="me${esc(x.name)}" data-to="${x.total}">${fmt(x.total)}<small>POINTS</small></div>
+      <div class="badge ${x.tier}"><i class="${x.tier||"n"} disp">${x.tier||"–"}</i><small>Current tier</small></div></div>
     <div class="track"><div class="fill" style="width:${Math.min(100,x.total/ta*100)}%"></div>
       <div class="mk" style="left:${tc/ta*100}%"><span>C</span></div>
       <div class="mk" style="left:${tb/ta*100}%"><span>B</span></div>
@@ -259,10 +277,11 @@ function renderMe(){
       <div class="stat"><small class="k">Rank in ${esc(x.f)}</small><b>${x.fnRank}<em> / ${x.fnCount}</em></b></div>
       <div class="stat"><small class="k">Rank overall</small><b>${x.rank}<em> / ${x.count}</em></b></div>
     </div></div>`;
-  celebrate(x);
+  celebrate(x); countUp(); updMini();
 }
 
 function renderLanes(){
+  $("lanes").classList.remove("sk"); $("lanes").style.height = "";
   const by = {};
   S.rows.forEach(x => (by[x.f] = by[x.f] || []).push(x));
   $("lanes").innerHTML = Object.keys(by).map(f => {
@@ -287,12 +306,14 @@ function renderFin(){
   $("fin").innerHTML = `<div class="card" style="margin-top:12px"><h3 class="disp">Final results</h3><div class="stats">${st("Tier A",n("A"))}${st("Tier B",n("B"))}${st("Tier C",n("C"))}${st("Winning function",best?best.f:"–")}</div></div>`;
 }
 
+const arrow = (r,key) => key==="rank" && r.mv ? `<small class="ar ${r.mv>0?"u":"d"}">${r.mv>0?"&#9650;":"&#9660;"}${Math.abs(r.mv)}</small>` : "";
+
 function renderLB(){
   $("tabs").innerHTML = ["ALL", ...Object.keys(FN)].map(f => `<button class="${f===S.tab?"on":""}" data-f="${f}">${f==="ALL"?"Overall":f}</button>`).join("");
   const key = S.tab==="ALL" ? "rank" : "fnRank";
   const list = S.rows.filter(r => S.tab==="ALL" || r.f===S.tab).sort((a,b) => a[key]-b[key] || a.name.localeCompare(b.name));
   const top = list.slice(0,10), me = list.find(r => r.name===S.sel);
-  const row = r => `<tr class="r ${r.name===S.sel?"me":""} ${r[key]===1?"p1":""}" data-n="${esc(r.name)}"><td class="rk">${r[key]}</td><td>${esc(r.name)}<small class="fs">${esc(r.f)}</small></td><td class="hf">${esc(r.f)}</td><td>${r.tier?`<span class="tb ${r.tier}">${r.tier}</span>`:"–"}</td><td class="o">${fmt(r.total)}</td></tr>`;
+  const row = r => `<tr class="r ${r.name===S.sel?"me":""} ${r[key]===1?"p1":""}" data-n="${esc(r.name)}"><td class="rk">${r[key]}${arrow(r,key)}</td><td>${esc(r.name)}<small class="fs">${esc(r.f)}</small></td><td class="hf">${esc(r.f)}</td><td>${r.tier?`<span class="tb ${r.tier}">${r.tier}</span>`:"–"}</td><td class="o">${fmt(r.total)}</td></tr>`;
   let h = top.map(row).join("");
   if (me && !top.includes(me)) h += '<tr class="gap"><td colspan="5">&bull; &bull; &bull;</td></tr>' + row(me);
   $("rows").innerHTML = h || '<tr><td colspan="5" class="empty">No data yet</td></tr>';
@@ -309,11 +330,29 @@ function tick(){
   const n = Date.now(), pre = n < START, done = n > END, s = Math.floor((pre ? START-n : Math.min(n,END)-START)/1e3), p = v => String(v).padStart(2,"0");
   $("sw").textContent = `${p(Math.floor(s/86400))}:${p(Math.floor(s%86400/3600))}:${p(Math.floor(s%3600/60))}:${p(s%60)}`;
   $("swl").textContent = (pre ? "until the gun" : done ? "final time" : "race clock") + " · d : h : m : s";
+  $("ms").textContent = $("sw").textContent;
   const last = !pre && !done && END-n < 172800000;
   document.body.classList.toggle("last", last); document.body.classList.toggle("done", done);
   const mode = last ? 1 : done ? 2 : 0;
   if (mode && S.mode !== mode){ S.mode = mode; $("tk").innerHTML = (mode===1 ? "LAST 48 HOURS &#9889; " : "FINAL RESULTS &#9889; ").repeat(14); }
 }
+
+const LV = {};
+function countUp(){
+  document.querySelectorAll("[data-to]").forEach(el => {
+    const to = +el.dataset.to, k = el.dataset.k, from = LV[k]||0; LV[k] = to;
+    if (from===to || matchMedia("(prefers-reduced-motion:reduce)").matches){ el.firstChild.textContent = fmt(to); return; }
+    const t0 = performance.now();
+    (function f(t){ const p = Math.min(1,(t-t0)/800); el.firstChild.textContent = fmt(from+(to-from)*(1-Math.pow(1-p,3))); if (p<1) requestAnimationFrame(f); })(t0);
+  });
+}
+let meVis = true;
+function updMini(){
+  const x = S.rows.find(r => r.name===S.sel);
+  $("mini").classList.toggle("show", !!x && !meVis);
+  if (x) $("mn").innerHTML = `${esc(x.name)}<i>${x.tier||"–"}</i>#${x.rank}`;
+}
+new IntersectionObserver(e => { meVis = e[0].isIntersecting; updMini(); }).observe($("me"));
 
 function pick(n){
   S.sel = n; try { localStorage.setItem("nr_sel", n); } catch(e) {}
@@ -332,7 +371,8 @@ async function load(){
       if (!Array.isArray(j) && j.prev) prev = toRows(j.prev);
     }
     S.rows = compute(rows); S.prev = prev;
-    renderPod(); renderPick(); renderMe(); renderLanes(); renderMovers(); renderFin(); renderLB();
+    if (prev){ const pr = {}; compute(prev).forEach(x => pr[x.name] = x.rank); S.rows.forEach(x => x.mv = x.name in pr ? pr[x.name]-x.rank : 0); }
+    renderPod(); renderPick(); renderMe(); renderLanes(); renderMovers(); renderFin(); renderLB(); countUp();
     $("upd").textContent = "Updated " + new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
   } catch(e) { console.error("Refresh failed", e); $("upd").textContent += " · refresh failed, showing last data"; }
 }
