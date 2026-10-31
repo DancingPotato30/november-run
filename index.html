@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Cpath d='M36 6 14 36h14l-4 22 26-34H34z' fill='%23d80f19'/%3E%3C/svg%3E">
 <meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Cpath d='M36 6 14 36h14l-4 22 26-34H34z' fill='%23d80f19'/%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>November Race</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--red:#d80f19;--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--fg:#fff;--mute:#9b9b9b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--fg:#fff;--mute:#9b9b9b}}
-:root[data-theme="dark"]{--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--fg:#fff;--mute:#9b9b9b}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;line-height:1.4}
@@ -21,20 +19,39 @@ header:after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:6px
 h1{margin:0;font-size:clamp(40px,9vw,76px);line-height:.95}
 h1 span{color:var(--red)}
 .sub{color:var(--mute);font-size:13px;margin-top:6px}
-.day{text-align:right}
-.day b{display:block;font-size:34px;color:var(--red)}
-.day small{color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.sw{text-align:right}
+.sw b{display:block;font:normal clamp(28px,7vw,44px) Anton,Impact,sans-serif;color:var(--red);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.sw small{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+h3.disp{margin:0 0 10px;font-size:26px}
+.sec{margin-top:28px}
+.ph{position:relative;margin:22px 0;border-radius:14px;overflow:hidden;background:#140506}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.banner{aspect-ratio:12/5;clip-path:polygon(0 0,100% 0,100% 88%,96% 100%,0 100%)}
+@media (max-width:560px){.banner{aspect-ratio:4/3}}
+.ticker{overflow:hidden;background:var(--red);color:#fff;transform:skewY(-1deg);margin:0 -16px;white-space:nowrap}
+.ticker div{display:inline-block;padding:8px 0;font:normal 16px Anton,Impact,sans-serif;letter-spacing:.12em;animation:tk 26s linear infinite}
+@keyframes tk{to{transform:translateX(-50%)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.chip{display:inline-block;padding:4px 10px;border:1px solid var(--red);color:var(--red);border-radius:99px;font-weight:800;font-size:12px;letter-spacing:.08em}
+small.k{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+.pod{display:flex;align-items:center;gap:18px;border:2px solid var(--red);background:linear-gradient(100deg,#2a0a0c,var(--card) 60%);margin-top:28px;flex-wrap:wrap}
+.pod+.pod{margin-top:12px}
+.av{position:relative;width:104px;height:104px;border-radius:50%;border:4px solid var(--red);background:#222;flex:none;overflow:hidden;display:flex;align-items:center;justify-content:center;font:normal 40px Anton,sans-serif}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pod h2{margin:2px 0 6px;font-size:30px}
+.pp{margin-left:auto;font-size:clamp(48px,12vw,80px);line-height:.9;color:var(--red);text-align:right}
+.pp small{display:block;font:600 12px Inter,sans-serif;color:var(--mute);letter-spacing:.1em}
 .pick{margin:34px 0 16px}
 select{width:100%;padding:14px;font:600 16px Inter,sans-serif;background:var(--card);color:var(--fg);border:2px solid var(--line);border-radius:10px}
 select:focus{outline:none;border-color:var(--red)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
-.hero{border-top:4px solid var(--red)}
+.hero{position:relative;overflow:hidden;border-top:4px solid var(--red)}
+.hero>*:not(.wm){position:relative}
+.wm{position:absolute;right:-6px;top:-34px;font-size:300px;line-height:1;color:transparent;-webkit-text-stroke:2px #262626;pointer-events:none}
 .who{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .who h2{margin:0;font-size:28px}
-.chip{display:inline-block;padding:4px 10px;border:1px solid var(--red);color:var(--red);border-radius:99px;font-weight:800;font-size:12px;letter-spacing:.08em}
-.big{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin:14px 0 6px}
-.num{font-size:clamp(64px,16vw,120px);line-height:.9}
-.unit{color:var(--mute);font-size:14px;margin-bottom:8px}
+.big{display:flex;align-items:flex-end;gap:14px;margin:14px 0 6px}
+.pts{font-size:clamp(72px,19vw,130px);line-height:.9}
+.pts small{font:600 14px Inter,sans-serif;color:var(--mute);margin-left:6px}
 .badge{margin-left:auto;text-align:center}
 .badge i{display:flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:50%;font:normal 46px Anton,Impact,sans-serif;border:4px solid var(--fg);color:var(--fg)}
 .badge i.B{background:var(--fg);color:var(--bg)}
@@ -49,19 +66,24 @@ select:focus{outline:none;border-color:var(--red)}
 .next b{color:var(--fg)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:18px}
 .stat{border:1px solid var(--line);border-radius:10px;padding:14px}
-.stat small{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
 .stat b{display:block;font:normal 38px Anton,Impact,sans-serif;margin-top:4px}
 .stat b em{font-style:normal;font-size:16px;color:var(--mute)}
-.empty{text-align:center;padding:36px 16px;color:var(--mute)}
+.empty{text-align:center;padding:30px 16px;color:var(--mute)}
 .empty b{display:block;color:var(--fg);font-size:26px;margin-bottom:6px}
-.lb{margin-top:28px}
-.lbh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.lbh h3{margin:0;font-size:26px}
-.tabs{display:flex;gap:6px;overflow-x:auto;max-width:100%;padding-bottom:4px}
+.lane{display:grid;grid-template-columns:52px 1fr 64px;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.lane:last-child{border:0}
+.lane b{font:normal 20px Anton,sans-serif}
+.rl{position:relative;height:10px;background:repeating-linear-gradient(90deg,#2b2b2b 0 10px,transparent 10px 20px);border-right:4px solid var(--fg)}
+.rl i{position:absolute;top:-9px;transform:translateX(-50%);font-style:normal;font-size:22px;transition:left .6s;filter:drop-shadow(0 0 4px var(--red))}
+.rl u{position:absolute;left:0;top:3px;height:4px;background:var(--red);text-decoration:none;transition:width .6s}
+.lane span{text-align:right;font-weight:800;font-size:13px}
+.mv{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.mv:last-child{border:0}
+.mv b{color:var(--red)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
 .tabs button{flex:none;background:none;color:var(--mute);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font:800 12px Inter,sans-serif;cursor:pointer}
 .tabs button.on{background:var(--red);border-color:var(--red);color:#fff}
-.scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:420px}
+table{width:100%;border-collapse:collapse}
 th{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.1em;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
 td{padding:11px 10px;border-bottom:1px solid var(--line);font-size:14px}
 tr.r{cursor:pointer}
@@ -74,147 +96,179 @@ td.o{text-align:right;font-weight:800}
 .tb.A{background:var(--red);border-color:var(--red)}
 .tb.B{background:var(--fg);color:var(--bg)}
 .gap td{text-align:center;color:var(--mute);padding:4px}
-footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.demo{color:var(--red);font-weight:800}
-.ph{position:relative;margin:22px 0;border:none;border-radius:14px;background:repeating-linear-gradient(135deg,#140506 0 12px,#0e0e0e 12px 24px);color:var(--mute);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;overflow:hidden}
-.ph span{padding:16px;max-width:440px}
-.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.banner{aspect-ratio:12/5;clip-path:polygon(0 0,100% 0,100% 88%,96% 100%,0 100%)}
-.finish{aspect-ratio:16/5;margin-top:34px}
-@media (max-width:560px){.banner{aspect-ratio:4/3}.finish{aspect-ratio:16/9}}
-.ticker{overflow:hidden;background:var(--red);color:#fff;transform:skewY(-1deg);margin:0 -16px;white-space:nowrap}
-.ticker div{display:inline-block;padding:8px 0;font:normal 16px Anton,Impact,sans-serif;letter-spacing:.12em;animation:tk 26s linear infinite}
-@keyframes tk{to{transform:translateX(-50%)}}
-.hero{position:relative;overflow:hidden}
-.wm{position:absolute;right:-6px;top:-34px;font-size:300px;line-height:1;color:transparent;-webkit-text-stroke:2px #262626;pointer-events:none}
-.hero>*:not(.wm){position:relative}
-.kpis{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px;margin:16px 0 6px}
-.kpi{flex:1 1 130px;border-left:4px solid var(--red);padding:2px 0 2px 14px}
-.kpi .n{font-size:clamp(52px,14vw,96px);line-height:.95}
-.kpi .l{color:var(--mute);font-size:13px;text-transform:uppercase;letter-spacing:.1em;font-weight:800}
-.kpis .badge{flex:0 0 auto;margin-left:auto}
-.kv{display:block;white-space:nowrap}
-.kv small{color:var(--mute);font-size:11px}
 .fs{display:none;color:var(--mute);font-size:11px}
-@media (max-width:560px){.hf{display:none}.fs{display:block}table{min-width:0}td,th{padding:10px 6px}.wm{font-size:200px}.badge i{width:68px;height:68px;font-size:38px}}
+details{margin-top:28px}
+summary{cursor:pointer;font:normal 26px Anton,Impact,sans-serif;text-transform:uppercase;list-style:none}
+summary:before{content:"+ ";color:var(--red)}
+details[open] summary:before{content:"– "}
+details table{margin-top:12px;min-width:480px}
+.sc{overflow-x:auto}
+details p{color:var(--mute);font-size:13px}
+.cel{position:fixed;inset:0;z-index:9;background:var(--red);display:none;align-items:center;justify-content:center;text-align:center;cursor:pointer}
+.cel.on{display:flex;animation:pop .5s}
+.cel b{display:block;font-size:min(46vw,260px);line-height:1}
+.cel small,.cel span{font:normal 28px Anton,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+@keyframes pop{from{transform:scale(1.3);opacity:0}}
+footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media (max-width:560px){.hf{display:none}.fs{display:block}td,th{padding:10px 6px}.wm{font-size:200px}.badge i{width:68px;height:68px;font-size:38px}.pp{margin-left:0;text-align:left}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
   <div class="top">
-    <div>
-      <h1 class="disp">November <span>Race</span></h1>
-      <div class="sub">1 Nov – 2 Dec &middot; run your lane</div>
-    </div>
-    <div class="day"><b class="disp" id="day">–</b><small id="daysub"></small></div>
+    <div><h1 class="disp">November <span>Race</span></h1><div class="sub">1 Nov – 2 Dec &middot; run your lane</div></div>
+    <div class="sw"><b id="sw">--:--:--:--</b><small id="swl"></small></div>
   </div>
 </header>
 
-<!-- IMAGE 1: BANNER. Wide landscape (about 1200x500). Usain Bolt mid-sprint or in his lightning-bolt pose, red/black duotone. To use: delete the <span> and put <img src="your-image.jpg" alt=""> inside this div. -->
-<div class="ph banner" id="img-banner"><img src="logo.png" alt="AIESEC in Ain Shams University" style="object-position: center;"></div>
+<div class="ph banner" id="img-banner"><img src="logo.png" alt="AIESEC in Ain Shams University"></div>
 <div class="ticker"><div>NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; NOVEMBER RACE &#9889; 1 NOV – 2 DEC &#9889; RUN YOUR LANE &#9889; </div></div>
 
+<div id="pod"></div>
 <div class="pick"><select id="who" aria-label="Find your name"></select></div>
 <div id="me"></div>
 
-<section class="lb">
-  <div class="lbh"><h3 class="disp">Leaderboard</h3><div class="tabs" id="tabs"></div></div>
-  <div class="card scroll" style="padding:6px"><table><thead><tr><th>#</th><th>Name</th><th class="hf">Fn</th><th>Tier</th><th style="text-align:right">Results</th></tr></thead><tbody id="rows"></tbody></table></div>
+<section class="sec"><h3 class="disp">Function lanes</h3><div class="card" id="lanes"></div></section>
+<section class="sec" id="mvs" hidden><h3 class="disp">Movers of the day</h3><div class="card" id="mv"></div></section>
+
+<section class="sec">
+  <h3 class="disp">Leaderboard</h3><div class="tabs" id="tabs"></div>
+  <div class="card" style="padding:6px"><table><thead><tr><th>#</th><th>Name</th><th class="hf">Fn</th><th>Tier</th><th style="text-align:right">Points</th></tr></thead><tbody id="rows"></tbody></table></div>
 </section>
 
-<!-- IMAGE 2: FINISH LINE STRIP. Wide strip (about 1200x375): finish-line tape, stadium track, or Bolt crossing the line. Same replace-the-span method. -->
-<footer><span id="upd"></span><span class="demo" id="demo"></span></footer>
+<details class="card"><summary>How it works</summary>
+  <p>Every result earns points. Points are added up and decide your tier and your rank. Points per result and tier targets depend on your function.</p>
+  <div class="sc"><table><thead><tr><th>Fn</th><th>Points per result</th><th>Tier C / B / A</th></tr></thead><tbody id="how"></tbody></table></div>
+  <p>Race runs 1 Nov – 2 Dec (Cairo time). Only November results count. Only #1 overall is featured on the podium. Prizes: [EDIT ME].</p>
+</details>
+
+<footer><span id="upd"></span><span id="demo" style="color:var(--red);font-weight:800"></span></footer>
 </div>
+<div class="cel" id="cel"></div>
 
 <script>
 // ===== CONFIG =====
-const DATA_URL = "https://script.google.com/macros/s/AKfycbzkYYTwHwt5uik2aYJVVE_mMkwuDThruBuPshPmnPvwDrK1ZlAiJM34vYbsft_wlMKmMg/exec";            // paste Apps Script web app URL here; empty = demo data
+const DATA_URL = "https://script.google.com/macros/s/AKfycbzkYYTwHwt5uik2aYJVVE_mMkwuDThruBuPshPmnPvwDrK1ZlAiJM34vYbsft_wlMKmMg/exec"; // empty = demo data
 const REFRESH_MS = 60000;
-const NORMALIZE_OVERALL = true; // overall rank by output ÷ Tier A target (fair across functions); false = raw total
 const START = new Date("2026-11-01T00:00:00+02:00"), END = new Date("2026-12-02T23:59:59+02:00");
-// kpis = Data-tab columns summed into Total Output; t = [Tier C, Tier B, Tier A] milestones
+// pts = points per result (Data column -> points). t = points needed for [Tier C, Tier B, Tier A].
+// PLACEHOLDERS except OGT APD = 8 and IGV APD = 4. Edit all of these.
 const FN = {
-  OGV:  {kpis:["APD"], t:[5,15,30]},
-  OGT:  {kpis:["APD"], t:[5,15,30]},
-  IGTA: {kpis:["APD","SLOTS"], t:[10,25,50]},
-  IGTE: {kpis:["APD","SLOTS"], t:[10,25,50]},
-  IGV:  {kpis:["APD","SLOTS"], t:[10,25,50]},
-  B2C:  {kpis:["EVENT","CAMPUS"], t:[6,15,30]},
-  BD:   {kpis:["MONEY"], t:[10000,30000,60000], unit:"EGP"}
+  OGV:  {pts:{APD:8}, t:[40,120,240]},
+  OGT:  {pts:{APD:8}, t:[40,120,240]},
+  IGTA: {pts:{APD:4,SLOTS:2}, t:[40,120,240]},
+  IGTE: {pts:{APD:4,SLOTS:2}, t:[40,120,240]},
+  IGV:  {pts:{APD:4,SLOTS:2}, t:[40,120,240]},
+  B2C:  {pts:{EVENT:5,CAMPUS:10}, t:[40,120,240]},
+  BD:   {pts:{MONEY:0.01}, t:[40,120,240]}
 };
-const LABEL = {APD:"APDs",SLOTS:"Slots",EVENT:"Events",CAMPUS:"Campuses",MONEY:"EGP"};
+const LABEL = {APD:"APD",SLOTS:"Slot",EVENT:"Event",CAMPUS:"Campus",MONEY:"EGP"};
 // ===================
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const fmt = n => Number(n).toLocaleString("en-US");
+const fmt = n => (Math.round(n*100)/100).toLocaleString("en-US");
 const num = v => Number(String(v).replace(/,/g,"")) || 0;
-let S = {rows:[], sel:"", tab:"ALL"};
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const ini = s => s.split(/\s+/).slice(0,2).map(w => w[0]||"").join("").toUpperCase();
+const TIERS = ["","C","B","A"];
+const fnOf = o => FN[String(o.FUNCTION||"").trim().toUpperCase()];
+const ptsOf = o => { const c = fnOf(o); return c ? Object.entries(c.pts).reduce((a,[k,p]) => a + num(o[k])*p, 0) : 0; };
+let S = {rows:[], prev:null, sel:"", tab:"ALL"};
 try { S.sel = localStorage.getItem("nr_sel") || ""; } catch(e) {}
 
 function mock(){
   let s = 7; const r = () => (s = s*16807 % 2147483647)/2147483647;
   const plan = {OGV:8,OGT:7,IGTA:7,IGTE:7,IGV:7,B2C:8,BD:6}, out = []; let n = 1;
   for (const f in plan) for (let i=0;i<plan[f];i++){
-    const o = {NAME:"Member "+String(n++).padStart(2,"0"), FUNCTION:f, APD:0, SLOTS:0, EVENT:0, CAMPUS:0, MONEY:0}, k = FN[f].kpis;
-    k.forEach(x => o[x] = x==="MONEY" ? Math.round(r()*55000/500)*500 : Math.round(r()*FN[f].t[2]*1.1/k.length));
+    const o = {NAME:"Member "+String(n++).padStart(2,"0"), FUNCTION:f, APD:0, SLOTS:0, EVENT:0, CAMPUS:0, MONEY:0};
+    for (const k in FN[f].pts) o[k] = Math.round(r()*FN[f].t[2]/FN[f].pts[k]/Object.keys(FN[f].pts).length*1.1);
     out.push(o);
   }
   return out;
 }
 
-function rank(list, key, val){
-  const a = [...list].sort((x,y) => y[val]-x[val]);
-  a.forEach((x,i) => x[key] = i && x[val]===a[i-1][val] ? a[i-1][key] : i+1);
+function rank(list, key){
+  const a = [...list].sort((x,y) => y.total-x.total);
+  a.forEach((x,i) => x[key] = i && x.total===a[i-1].total ? a[i-1][key] : i+1);
   return a;
 }
 
 function compute(rows){
-  const L = rows.map(o => {
-    const f = String(o.FUNCTION||"").trim().toUpperCase(), c = FN[f];
-    if (!c || !o.NAME) return null;
-    const total = c.kpis.reduce((a,k) => a + num(o[k]), 0), [tc,tb,ta] = c.t;
-    return {name:String(o.NAME).trim(), f, c, total, v:Object.fromEntries(c.kpis.map(k => [k, num(o[k])])), score:total/ta, tier: total>=ta?"A":total>=tb?"B":total>=tc?"C":""};
-  }).filter(Boolean);
+  const L = rows.filter(o => fnOf(o) && o.NAME).map(o => {
+    const c = fnOf(o), total = ptsOf(o), [tc,tb,ta] = c.t;
+    return {name:String(o.NAME).trim(), f:String(o.FUNCTION).trim().toUpperCase(), c, total, tier: total>=ta?"A":total>=tb?"B":total>=tc?"C":""};
+  });
   const by = {};
   L.forEach(x => (by[x.f] = by[x.f] || []).push(x));
-  for (const f in by){ rank(by[f], "fnRank", "total"); by[f].forEach(x => x.fnCount = by[f].length); }
-  const all = rank(L, "rank", NORMALIZE_OVERALL ? "score" : "total");
+  for (const f in by){ rank(by[f], "fnRank"); by[f].forEach(x => x.fnCount = by[f].length); }
+  const all = rank(L, "rank");
   all.forEach(x => x.count = all.length);
   return all;
+}
+
+function renderPod(){
+  const lead = S.rows.filter(r => r.rank===1 && r.total>0).slice(0,3);
+  $("pod").innerHTML = lead.length ? lead.map(x => `<div class="card pod"><div class="av">${esc(ini(x.name))}<img src="photos/${slug(x.name)}.jpg" alt="" onerror="this.remove()"></div><div><small class="k">&#9889; Leading the race</small><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div><div class="pp disp">${fmt(x.total)}<small>POINTS</small></div></div>`).join("")
+    : '<div class="card empty" style="margin-top:28px"><b class="disp">Who takes the lead?</b>The podium opens with the first points.</div>';
+}
+
+function celebrate(x){
+  const key = "nr_t_"+x.name;
+  try {
+    const p = localStorage.getItem(key);
+    if (p!==null && TIERS.indexOf(x.tier) > TIERS.indexOf(p)){
+      $("cel").innerHTML = `<div><small>Tier up</small><b class="disp">${x.tier}</b><span>Tier ${x.tier} unlocked</span></div>`;
+      $("cel").classList.add("on"); setTimeout(() => $("cel").classList.remove("on"), 4500);
+    }
+    localStorage.setItem(key, x.tier);
+  } catch(e) {}
 }
 
 function renderMe(){
   const x = S.rows.find(r => r.name === S.sel), el = $("me");
   if (!x){ el.innerHTML = '<div class="card empty"><b class="disp">Pick your name</b>Step onto the track to see your tier and rank.</div>'; return; }
-  const [tc,tb,ta] = x.c.t, basis = x.c.kpis.map(k => LABEL[k]).join(" + ");
-  const nxt = x.tier==="A" ? null : x.tier==="B" ? ["A",ta] : x.tier==="C" ? ["B",tb] : ["C",tc];
-  const pct = Math.min(100, x.total/ta*100);
+  const [tc,tb,ta] = x.c.t, nxt = x.tier==="A" ? null : x.tier==="B" ? ["A",ta] : x.tier==="C" ? ["B",tb] : ["C",tc];
   el.innerHTML = `<div class="card hero"><div class="wm disp">${x.tier||""}</div>
     <div class="who"><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div>
-    <div class="kpis">${x.c.kpis.map(k => `<div class="kpi"><div class="n disp">${fmt(x.v[k])}</div><div class="l">${LABEL[k]}</div></div>`).join("")}
-      <div class="badge"><i class="${x.tier||"n"} disp">${x.tier||"–"}</i><small>Current tier</small></div>
-    </div>
-    <div class="track"><div class="fill" style="width:${pct}%"></div>
+    <div class="big"><div class="pts disp">${fmt(x.total)}<small>POINTS</small></div>
+      <div class="badge"><i class="${x.tier||"n"} disp">${x.tier||"–"}</i><small>Current tier</small></div></div>
+    <div class="track"><div class="fill" style="width:${Math.min(100,x.total/ta*100)}%"></div>
       <div class="mk" style="left:${tc/ta*100}%"><span>C</span></div>
       <div class="mk" style="left:${tb/ta*100}%"><span>B</span></div>
       <div class="mk" style="left:calc(100% - 2px)"><span>A</span></div></div>
-    <div class="next">${nxt ? `<b>${fmt(nxt[1]-x.total)} more ${basis}</b> to reach Tier ${nxt[0]}` : "<b>Top tier reached.</b> Keep running."}<br>Tier and rank are based on ${basis}.</div>
+    <div class="next">${nxt ? `<b>${fmt(nxt[1]-x.total)} more points</b> to reach Tier ${nxt[0]}` : "<b>Top tier reached.</b> Keep running."}</div>
     <div class="stats">
-      <div class="stat"><small>Function</small><b>${esc(x.f)}</b></div>
-      <div class="stat"><small>Rank in ${esc(x.f)}</small><b>${x.fnRank}<em> / ${x.fnCount}</em></b></div>
-      <div class="stat"><small>Rank overall</small><b>${x.rank}<em> / ${x.count}</em></b></div>
+      <div class="stat"><small class="k">Rank in ${esc(x.f)}</small><b>${x.fnRank}<em> / ${x.fnCount}</em></b></div>
+      <div class="stat"><small class="k">Rank overall</small><b>${x.rank}<em> / ${x.count}</em></b></div>
     </div></div>`;
+  celebrate(x);
+}
+
+function renderLanes(){
+  const by = {};
+  S.rows.forEach(x => (by[x.f] = by[x.f] || []).push(x));
+  $("lanes").innerHTML = Object.keys(by).map(f => {
+    const avg = by[f].reduce((a,x) => a + x.total, 0)/by[f].length, p = Math.min(100, avg/FN[f].t[2]*100);
+    return {f, avg, p};
+  }).sort((a,b) => b.p-a.p).map(l => `<div class="lane"><b>${l.f}</b><div class="rl"><u style="width:${l.p}%"></u><i style="left:${l.p}%">&#127939;</i></div><span>${fmt(l.avg)}<br><small class="k">avg pts</small></span></div>`).join("") || '<div class="empty">No data yet</div>';
+}
+
+function renderMovers(){
+  if (!S.prev){ $("mvs").hidden = true; return; }
+  const pm = {}; S.prev.forEach(o => pm[String(o.NAME).trim()] = ptsOf(o));
+  const m = S.rows.map(x => ({x, d: x.total - (pm[x.name]||0)})).filter(m => m.d>0).sort((a,b) => b.d-a.d).slice(0,3);
+  $("mvs").hidden = !m.length;
+  $("mv").innerHTML = m.map((m,i) => `<div class="mv"><span>${i+1}. ${esc(m.x.name)} <small class="k">${esc(m.x.f)}</small></span><b>&#9650; +${fmt(m.d)} pts</b></div>`).join("");
 }
 
 function renderLB(){
-  const fns = ["ALL", ...Object.keys(FN)];
-  $("tabs").innerHTML = fns.map(f => `<button class="${f===S.tab?"on":""}" data-f="${f}">${f==="ALL"?"Overall":f}</button>`).join("");
+  $("tabs").innerHTML = ["ALL", ...Object.keys(FN)].map(f => `<button class="${f===S.tab?"on":""}" data-f="${f}">${f==="ALL"?"Overall":f}</button>`).join("");
   const key = S.tab==="ALL" ? "rank" : "fnRank";
-  let list = S.rows.filter(r => S.tab==="ALL" || r.f===S.tab).sort((a,b) => a[key]-b[key] || a.name.localeCompare(b.name));
+  const list = S.rows.filter(r => S.tab==="ALL" || r.f===S.tab).sort((a,b) => a[key]-b[key] || a.name.localeCompare(b.name));
   const top = list.slice(0,10), me = list.find(r => r.name===S.sel);
-  const row = r => `<tr class="r ${r.name===S.sel?"me":""} ${r[key]===1?"p1":""}" data-n="${esc(r.name)}"><td class="rk">${r[key]}</td><td>${esc(r.name)}<small class="fs">${esc(r.f)}</small></td><td class="hf">${esc(r.f)}</td><td>${r.tier?`<span class="tb ${r.tier}">${r.tier}</span>`:"–"}</td><td class="o">${r.c.kpis.map(k => `<span class="kv"><b>${fmt(r.v[k])}</b> <small>${LABEL[k]}</small></span>`).join("")}</td></tr>`;
+  const row = r => `<tr class="r ${r.name===S.sel?"me":""} ${r[key]===1?"p1":""}" data-n="${esc(r.name)}"><td class="rk">${r[key]}</td><td>${esc(r.name)}<small class="fs">${esc(r.f)}</small></td><td class="hf">${esc(r.f)}</td><td>${r.tier?`<span class="tb ${r.tier}">${r.tier}</span>`:"–"}</td><td class="o">${fmt(r.total)}</td></tr>`;
   let h = top.map(row).join("");
   if (me && !top.includes(me)) h += '<tr class="gap"><td colspan="5">&bull; &bull; &bull;</td></tr>' + row(me);
   $("rows").innerHTML = h || '<tr><td colspan="5" class="empty">No data yet</td></tr>';
@@ -225,27 +279,12 @@ function renderPick(){
   $("who").innerHTML = '<option value="">Find your name…</option>' + names.map(n => `<option ${n===S.sel?"selected":""}>${esc(n)}</option>`).join("");
 }
 
-function renderDay(){
-  const cairo = d => new Date(d.toLocaleString("en-US", {timeZone:"Africa/Cairo"}));
-  const day0  = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const today = day0(cairo(new Date()));
-  const start = new Date(2026, 10, 1), end = new Date(2026, 11, 2);  // month is 0-based
-  const n = (a, b) => Math.round((b - a) / 864e5);
-  const total = n(start, end) + 1;                                    // 32 days
-  let big, sub;
-  if (today < start){
-    const d = n(today, start);
-    big = d === 1 ? "Tomorrow" : d + " days";
-    sub = d === 1 ? "the race starts" : "until the gun";
-  } else if (today > end){
-    big = "Finished"; sub = "race over";
-  } else {
-    const d = n(start, today) + 1;
-    big = d === total ? "Final day" : "Day " + d;
-    sub = "of " + total;
-  }
-  $("day").textContent = big;
-  $("daysub").textContent = sub;
+$("how").innerHTML = Object.entries(FN).map(([f,c]) => `<tr><td><b>${f}</b></td><td>${Object.entries(c.pts).map(([k,p]) => `${LABEL[k]}: ${p}`).join(" · ")}</td><td>${c.t.join(" / ")}</td></tr>`).join("");
+
+function tick(){
+  const n = Date.now(), pre = n < START, done = n > END, s = Math.floor((pre ? START-n : Math.min(n,END)-START)/1e3), p = v => String(v).padStart(2,"0");
+  $("sw").textContent = `${p(Math.floor(s/86400))}:${p(Math.floor(s%86400/3600))}:${p(Math.floor(s%3600/60))}:${p(s%60)}`;
+  $("swl").textContent = (pre ? "until the gun" : done ? "final time" : "race clock") + " · d : h : m : s";
 }
 
 function pick(n){
@@ -253,16 +292,19 @@ function pick(n){
   $("who").value = n; renderMe(); renderLB();
 }
 
+const toRows = j => { const k = j[0].map(x => String(x).trim().toUpperCase()); return j.slice(1).map(r => { const o = {}; k.forEach((c,i) => o[c] = r[i]); return o; }); };
+
 async function load(){
   try {
-    let rows;
+    let rows, prev = null;
     if (!DATA_URL){ rows = mock(); $("demo").textContent = "DEMO DATA"; }
     else {
-      const j = await (await fetch(DATA_URL)).json(), keys = j[0].map(k => String(k).trim().toUpperCase());
-      rows = j.slice(1).map(r => { const o = {}; keys.forEach((k,i) => o[k] = r[i]); return o; });
+      const j = await (await fetch(DATA_URL)).json();
+      rows = toRows(Array.isArray(j) ? j : j.data);
+      if (!Array.isArray(j) && j.prev) prev = toRows(j.prev);
     }
-    S.rows = compute(rows);
-    renderPick(); renderMe(); renderLB(); renderDay();
+    S.rows = compute(rows); S.prev = prev;
+    renderPod(); renderPick(); renderMe(); renderLanes(); renderMovers(); renderLB();
     $("upd").textContent = "Updated " + new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
   } catch(e) { console.error("Refresh failed", e); $("upd").textContent += " · refresh failed, showing last data"; }
 }
@@ -270,7 +312,9 @@ async function load(){
 $("who").onchange = e => pick(e.target.value);
 $("tabs").onclick = e => { const f = e.target.dataset.f; if (f){ S.tab = f; renderLB(); } };
 $("rows").onclick = e => { const tr = e.target.closest("tr.r"); if (tr){ pick(tr.dataset.n); window.scrollTo({top:0,behavior:"smooth"}); } };
+$("cel").onclick = () => $("cel").classList.remove("on");
 document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+tick(); setInterval(tick, 1000);
 load(); setInterval(load, REFRESH_MS);
 </script>
 </body>
