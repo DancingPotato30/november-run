@@ -357,9 +357,9 @@ const tcell = rc => rc.t.join(" / ") + (rc.min ? `<br><small class="k">also min 
 $("how").innerHTML = Object.entries(FN).map(([f,c]) => `<tr><td><b>${f}</b></td><td>${Object.entries(c.pts).map(([k,p]) => `${LABEL[k]}: ${p}`).join(" · ")}</td><td>${tcell(c.M)}</td><td>${tcell(c.TL)}</td></tr>`).join("");
 
 function tick(){
-  const n = Date.now(), pre = n < START, done = n > END, s = Math.floor((pre ? START-n : Math.min(n,END)-START)/1e3), p = v => String(v).padStart(2,"0");
+  const n = Date.now(), pre = n < START, done = n > END, s = Math.max(0, Math.floor((pre ? START-n : END-n)/1e3)), p = v => String(v).padStart(2,"0");
   { const h = `${p(Math.floor(s/86400))}:${p(Math.floor(s%86400/3600))}:${p(Math.floor(s%3600/60))}:<span class="sd">${p(s%60)}</span>`; if (S.lsw !== h){ S.lsw = h; $("sw").innerHTML = h; } }
-  $("swl").textContent = (pre ? "until the gun" : done ? "final time" : "race clock") + " · d : h : m : s";
+  $("swl").textContent = (pre ? "until the gun" : done ? "race over" : "time left") + " · d : h : m : s";
   $("ms").textContent = $("sw").textContent;
   const last = !pre && !done && END-n < 172800000;
   document.body.classList.toggle("last", last); document.body.classList.toggle("done", done);
