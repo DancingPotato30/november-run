@@ -181,8 +181,8 @@ footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-con
 </section>
 
 <details class="card"><summary>How it works</summary>
-  <p>Every result earns points. Points are added up and decide your tier and your rank. Points per result and tier targets depend on your function.</p>
-  <div class="sc"><table><thead><tr><th>Fn</th><th>Points per result</th><th>Tier C / B / A</th></tr></thead><tbody id="how"></tbody></table></div>
+  <p>Every result earns points. Points are added up and decide your tier and your rank. Points per result and tier targets depend on your function and role (Member or TL). Some tiers also need a minimum of a specific result.</p>
+  <div class="sc"><table><thead><tr><th>Fn</th><th>Points per result</th><th>Member: C / B / A (pts)</th><th>TL: C / B / A (pts)</th></tr></thead><tbody id="how"></tbody></table></div>
   <p>Race runs 1 Nov – 2 Dec (Cairo time). Only November results count. Only #1 overall is featured on the podium. Prizes: [EDIT ME].</p>
 </details>
 
@@ -199,18 +199,20 @@ footer{margin-top:20px;color:var(--mute);font-size:12px;display:flex;justify-con
 const DATA_URL = "https://script.google.com/macros/s/AKfycbzkYYTwHwt5uik2aYJVVE_mMkwuDThruBuPshPmnPvwDrK1ZlAiJM34vYbsft_wlMKmMg/exec"; // empty = demo data
 const REFRESH_MS = 60000;
 const START = new Date("2026-11-01T00:00:00+02:00"), END = new Date("2026-12-02T23:59:59+02:00");
-// pts = points per result (Data column -> points). t = points needed for [Tier C, Tier B, Tier A].
-// PLACEHOLDERS except OGT APD = 8 and IGV APD = 4. Edit all of these.
+// pts = points per result (Data column -> points).
+// For each role (M = Member, TL = Team Leader): t = points needed for [Tier C, B, A];
+// min = optional minimum raw output per tier, e.g. min:{OPEN:[7,7,9]} = needs 7 / 7 / 9 OPENs for C / B / A.
+// Thresholds are the stated output targets x point values. Where a class had two options, the lower one is used.
 const FN = {
-  OGV:  {pts:{APD:8}, t:[40,120,240]},
-  OGT:  {pts:{APD:8}, t:[40,120,240]},
-  IGTA: {pts:{APD:4,SLOTS:2}, t:[40,120,240]},
-  IGTE: {pts:{APD:4,SLOTS:2}, t:[40,120,240]},
-  IGV:  {pts:{APD:4,SLOTS:2}, t:[40,120,240]},
-  B2C:  {pts:{EVENT:5,CAMPUS:10}, t:[40,120,240]},
-  BD:   {pts:{MONEY:0.01}, t:[40,120,240]}
+  OGV:  {pts:{APD:8},  M:{t:[48,64,88]},  TL:{t:[96,136,200]}},
+  OGT:  {pts:{APD:12}, M:{t:[36,60,96]},  TL:{t:[60,84,120]}},
+  IGV:  {pts:{APD:4,OPEN:5}, M:{t:[30,40,60]}, TL:{t:[75,125,175]}},
+  IGTA: {pts:{APD:7,OPEN:8}, M:{t:[40,56,72], min:{OPEN:[5,7,9]}}, TL:{t:[80,96,120], min:{OPEN:[7,7,9]}}},
+  B2C:  {pts:{EVENT:5,CAMPUS:20}, M:{t:[10,15,25], min:{EVENT:[2,3,5]}}, TL:{t:[15,35,65], min:{CAMPUS:[0,1,2]}}},
+  BD:   {pts:{MONEY:0.003}, M:{t:[60,90,105]}, TL:{t:[60,150,210]}}   // 3 points per 1000 EGP
 };
-const LABEL = {APD:"APD",SLOTS:"Slot",EVENT:"Event",CAMPUS:"Campus",MONEY:"EGP"};
+FN.IGTE = FN.IGTA;
+const LABEL = {APD:"APD",OPEN:"OPEN",EVENT:"Event",CAMPUS:"Campus",MONEY:"EGP"};
 // ===================
 
 const $ = id => document.getElementById(id);
@@ -222,6 +224,9 @@ const ini = s => s.split(/\s+/).slice(0,2).map(w => w[0]||"").join("").toUpperCa
 const TIERS = ["","C","B","A"];
 const fnOf = o => FN[String(o.FUNCTION||"").trim().toUpperCase()];
 const ptsOf = o => { const c = fnOf(o); return c ? Object.entries(c.pts).reduce((a,[k,p]) => a + num(o[k])*p, 0) : 0; };
+const isTL = o => /^t/i.test(String(o.ROLE||"").trim());
+const lab = (k,n) => n===1||k==="MONEY" ? LABEL[k] : k==="CAMPUS" ? "Campuses" : LABEL[k]+"s";
+const tierOf = (rc,o,total) => { let t = ""; rc.t.forEach((th,i) => { if (total>=th && Object.entries(rc.min||{}).every(([k,v]) => num(o[k])>=v[i])) t = "CBA"[i]; }); return t; };
 let S = {rows:[], prev:null, sel:"", tab:"ALL"};
 try { S.sel = localStorage.getItem("nr_sel") || ""; } catch(e) {}
 
@@ -229,8 +234,8 @@ function mock(){
   let s = 7; const r = () => (s = s*16807 % 2147483647)/2147483647;
   const plan = {OGV:8,OGT:7,IGTA:7,IGTE:7,IGV:7,B2C:8,BD:6}, out = []; let n = 1;
   for (const f in plan) for (let i=0;i<plan[f];i++){
-    const o = {NAME:"Member "+String(n++).padStart(2,"0"), FUNCTION:f, APD:0, SLOTS:0, EVENT:0, CAMPUS:0, MONEY:0};
-    for (const k in FN[f].pts) o[k] = Math.round(r()*FN[f].t[2]/FN[f].pts[k]/Object.keys(FN[f].pts).length*1.1);
+    const o = {NAME:"Member "+String(n++).padStart(2,"0"), FUNCTION:f, ROLE:i%4===0?"TL":"Member", APD:0, OPEN:0, EVENT:0, CAMPUS:0, MONEY:0};
+    for (const k in FN[f].pts) o[k] = Math.round(r()*FN[f].M.t[2]/FN[f].pts[k]/Object.keys(FN[f].pts).length*1.1);
     out.push(o);
   }
   return out;
@@ -244,8 +249,8 @@ function rank(list, key){
 
 function compute(rows){
   const L = rows.filter(o => fnOf(o) && o.NAME).map(o => {
-    const c = fnOf(o), total = ptsOf(o), [tc,tb,ta] = c.t;
-    return {name:String(o.NAME).trim(), f:String(o.FUNCTION).trim().toUpperCase(), c, total, tier: total>=ta?"A":total>=tb?"B":total>=tc?"C":""};
+    const c = fnOf(o), total = ptsOf(o), role = isTL(o) ? "TL" : "M", rc = c[role];
+    return {name:String(o.NAME).trim(), f:String(o.FUNCTION).trim().toUpperCase(), c, role, rc, t:rc.t, raw:o, total, tier:tierOf(rc,o,total)};
   });
   const by = {};
   L.forEach(x => (by[x.f] = by[x.f] || []).push(x));
@@ -277,23 +282,24 @@ function chase(x){
   const up = S.rows.filter(r => r.total > x.total).sort((a,b) => a.total-b.total)[0];
   if (!up) return x.total>0 ? '<div class="chase"><b>You are #1.</b> Defend it.</div>' : "";
   const gap = up.total - x.total;
-  const u = Object.entries(x.c.pts).map(([k,p]) => { const n = Math.floor(+(gap/p).toFixed(6))+1; return `<b>${fmt(n)} ${LABEL[k]}${n>1&&k!=="MONEY"?"s":""}</b>`; }).join(" or ");
+  const u = Object.entries(x.c.pts).map(([k,p]) => { const n = Math.floor(+(gap/p).toFixed(6))+1; return `<b>${fmt(n)} ${lab(k,n)}</b>`; }).join(" or ");
   return `<div class="chase">You are ${u} away from passing ${esc(up.name)} (#${up.rank}).</div>`;
 }
 
 function renderMe(){
   const x = S.rows.find(r => r.name === S.sel), el = $("me");
   if (!x){ el.innerHTML = '<div class="card empty"><b class="disp">Pick your name</b>Step onto the track to see your tier and rank.</div>'; return; }
-  const [tc,tb,ta] = x.c.t, nxt = x.tier==="A" ? null : x.tier==="B" ? ["A",ta] : x.tier==="C" ? ["B",tb] : ["C",tc];
+  const [tc,tb,ta] = x.t, ni = TIERS.indexOf(x.tier), nt = ni<3 ? "CBA"[ni] : null;
+  const need = nt ? [...(x.t[ni]-x.total>0 ? [`${fmt(x.t[ni]-x.total)} more points`] : []), ...Object.entries(x.rc.min||{}).filter(([k,v]) => num(x.raw[k]) < v[ni]).map(([k,v]) => { const d = v[ni]-num(x.raw[k]); return `${fmt(d)} more ${lab(k,d)}`; })] : [];
   el.innerHTML = `<div class="card hero"><div class="wm disp">${x.tier||""}</div>
-    <div class="who"><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)}</span></div>
+    <div class="who"><h2 class="disp">${esc(x.name)}</h2><span class="chip">${esc(x.f)} &middot; ${x.role==="TL"?"TL":"Member"}</span></div>
     <div class="big"><div class="pts disp" data-k="me${esc(x.name)}" data-to="${x.total}">${fmt(x.total)}<small>POINTS</small></div>
       <div class="badge ${x.tier}"><i class="${x.tier||"n"} disp">${x.tier||"–"}</i><small>Current tier</small></div></div>
     <div class="track"><div class="fill" style="width:${Math.min(100,x.total/ta*100)}%"></div>
       <div class="mk" style="left:${tc/ta*100}%"><span>C</span></div>
       <div class="mk" style="left:${tb/ta*100}%"><span>B</span></div>
       <div class="mk" style="left:calc(100% - 2px)"><span>A</span></div></div>
-    <div class="next">${nxt ? `<b>${fmt(nxt[1]-x.total)} more points</b> to reach Tier ${nxt[0]}` : "<b>Top tier reached.</b> Keep running."}</div>
+    <div class="next">${nt ? `<b>${need.join(" + ")}</b> to reach Tier ${nt}` : "<b>Top tier reached.</b> Keep running."}</div>
     ${chase(x)}
     <div class="stats">
       <div class="stat"><small class="k">Rank in ${esc(x.f)}</small><b>${x.fnRank}<em> / ${x.fnCount}</em></b></div>
@@ -308,7 +314,7 @@ function renderLanes(){
   const by = {};
   S.rows.forEach(x => (by[x.f] = by[x.f] || []).push(x));
   $("lanes").innerHTML = Object.keys(by).map(f => {
-    const avg = by[f].reduce((a,x) => a + x.total, 0)/by[f].length, p = Math.min(100, avg/FN[f].t[2]*100);
+    const avg = by[f].reduce((a,x) => a + x.total, 0)/by[f].length, p = by[f].reduce((a,x) => a + Math.min(1, x.total/x.t[2]), 0)/by[f].length*100;
     return {f, avg, p};
   }).sort((a,b) => b.p-a.p).map(l => `<div class="lane"><b>${l.f}</b><div class="rl"><u style="width:${l.p}%"></u><i style="left:${l.p}%">&#127939;</i></div><span>${fmt(l.avg)}<br><small class="k">avg pts</small></span></div>`).join("") || '<div class="empty">No data yet</div>';
 }
@@ -324,7 +330,7 @@ function renderMovers(){
 function renderFin(){
   if (Date.now() <= END){ $("fin").innerHTML = ""; return; }
   const by = {}; S.rows.forEach(x => (by[x.f] = by[x.f] || []).push(x));
-  const best = Object.keys(by).map(f => ({f, p: by[f].reduce((a,x) => a+x.total, 0)/by[f].length/FN[f].t[2]})).sort((a,b) => b.p-a.p)[0];
+  const best = Object.keys(by).map(f => ({f, p: by[f].reduce((a,x) => a+Math.min(1,x.total/x.t[2]), 0)/by[f].length})).sort((a,b) => b.p-a.p)[0];
   const n = t => S.rows.filter(r => r.tier===t).length, st = (l,v) => `<div class="stat"><small class="k">${l}</small><b>${v}</b></div>`;
   $("fin").innerHTML = `<div class="card" style="margin-top:12px"><h3 class="disp">Final results</h3><div class="stats">${st("Tier A",n("A"))}${st("Tier B",n("B"))}${st("Tier C",n("C"))}${st("Winning function",best?best.f:"–")}</div></div>`;
 }
@@ -347,7 +353,8 @@ function renderPick(){
   $("who").innerHTML = '<option value="">Find your name…</option>' + names.map(n => `<option ${n===S.sel?"selected":""}>${esc(n)}</option>`).join("");
 }
 
-$("how").innerHTML = Object.entries(FN).map(([f,c]) => `<tr><td><b>${f}</b></td><td>${Object.entries(c.pts).map(([k,p]) => `${LABEL[k]}: ${p}`).join(" · ")}</td><td>${c.t.join(" / ")}</td></tr>`).join("");
+const tcell = rc => rc.t.join(" / ") + (rc.min ? `<br><small class="k">also min ${Object.entries(rc.min).map(([k,v]) => v.join("/")+" "+LABEL[k]).join(", ")}</small>` : "");
+$("how").innerHTML = Object.entries(FN).map(([f,c]) => `<tr><td><b>${f}</b></td><td>${Object.entries(c.pts).map(([k,p]) => `${LABEL[k]}: ${p}`).join(" · ")}</td><td>${tcell(c.M)}</td><td>${tcell(c.TL)}</td></tr>`).join("");
 
 function tick(){
   const n = Date.now(), pre = n < START, done = n > END, s = Math.floor((pre ? START-n : Math.min(n,END)-START)/1e3), p = v => String(v).padStart(2,"0");
